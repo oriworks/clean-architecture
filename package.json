@@ -4,5 +4,8 @@
   "description": "Boilerplate form react project with clean architecture.",
   "scripts": {},
   "author": "Joel Oliveira <joeloliveira@oriworks.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "git-commit-msg-linter": "^3.0.0"
+  }
 }
