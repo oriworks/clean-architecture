@@ -3,3 +3,6 @@
 
 ## dependencies
 node_modules
+
+## Unit test
+coverage
