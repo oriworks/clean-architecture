@@ -21,7 +21,9 @@ export default {
 
   // An array of glob patterns indicating a set of files for which coverage information should be collected
   collectCoverageFrom: [
-    '<rootDir>/src/**/*.{ts,tsx}'
+    '<rootDir>/src/**/*.{ts,tsx}',
+    '!<rootDir>/src/**/index.{ts,tsx}',
+    '!<rootDir>/src/tests/**/*.{ts,tsx}'
   ],
 
   // The directory where Jest should output its coverage files
@@ -83,7 +85,9 @@ export default {
   // ],
 
   // A map from regular expressions to module names or to arrays of module names that allow to stub out resources with a single module
-  // moduleNameMapper: {},
+  moduleNameMapper: {
+    '^@/(.*)': '<rootDir>/src/$1'
+  },
 
   // An array of regexp pattern strings, matched against all module paths before considered 'visible' to the module loader
   // modulePathIgnorePatterns: [],
@@ -139,7 +143,7 @@ export default {
   // snapshotSerializers: [],
 
   // The test environment that will be used for testing
-  testEnvironment: "node",
+  testEnvironment: "jsdom",
 
   // Options that will be passed to the testEnvironment
   // testEnvironmentOptions: {},
@@ -175,7 +179,7 @@ export default {
 
   // A map from regular expressions to paths to transformers
   transform: {
-    '.+\\.ts$': 'ts-jest'
+    '.+\\.(ts|tsx)$': 'ts-jest'
   },
 
   // An array of regexp pattern strings that are matched against all source file paths, matched files will skip transformation
