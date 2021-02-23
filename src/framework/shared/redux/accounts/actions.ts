@@ -16,3 +16,15 @@ export const loadAccountsAsync =
           throw error
         })
     }
+
+export const createAccountAsync = (name: string): AsyncAction<void> => async (dispatch, getState, features) => {
+  dispatch({ type: ActionTypes.SUBMIT_ACCOUNT_START })
+  return await features.createAccount(name)
+    .then(() => {
+      dispatch({ type: ActionTypes.SUBMIT_ACCOUNT_SUCCESS })
+    })
+    .catch(error => {
+      dispatch({ type: ActionTypes.SUBMIT_ACCOUNT_FAIL })
+      throw error
+    })
+}

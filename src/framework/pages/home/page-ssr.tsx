@@ -1,19 +1,30 @@
 import React from 'react'
-import { NextPage } from 'next'
+import { GetServerSideProps, NextPage } from 'next'
 import Page, { PageProps } from './page'
+import { Features } from '@/framework/features'
+import { selectors as accountsSelectors, actions as accountsActions } from '@/framework/shared/redux/accounts'
+import { initializeStore } from '@/framework/shared/redux'
 
-const PageSSR = (props: PageProps): NextPage<PageProps> => {
-  const PageWithSSR: NextPage<PageProps> = (homeProps: PageProps) => (<Page {...homeProps} />)
+export interface NextSSR<P> {
+  getServerSideProps: GetServerSideProps<P>
+  Page: NextPage<P>
+}
 
-  PageWithSSR.getInitialProps = async () => {
-    const accounts = await props.features.loadAccounts()
-    return {
-      features: props.features,
-      accounts
-    }
+const PageSSR = (features: Features): NextSSR<PageProps> => {
+  const PageWithSSR: NextPage<PageProps> = () => (<Page />)
+
+  const getServerSideProps: GetServerSideProps<PageProps> = async (context) => {
+    const reduxStore = initializeStore({}, features)
+
+    await reduxStore.dispatch(accountsActions.loadAccountsAsync())
+
+    return { props: { initialReduxState: reduxStore.getState() } }
   }
 
-  return PageWithSSR
+  return {
+    getServerSideProps,
+    Page: PageWithSSR
+  }
 }
 
 export default PageSSR

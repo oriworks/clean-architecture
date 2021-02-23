@@ -1,3 +1,7 @@
 import { makeHomePageSSR } from '@/main/factories/pages/home'
 
-export default makeHomePageSSR()
+const { Page, getServerSideProps: GetServerSideProps } = makeHomePageSSR()
+
+export const getServerSideProps = GetServerSideProps
+
+export default Page

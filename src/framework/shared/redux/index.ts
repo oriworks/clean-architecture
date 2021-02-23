@@ -1,11 +1,11 @@
 import { combineReducers } from 'redux'
 
-import { AppState } from './types'
+import { AppReducer } from './types'
 
 import accountsReducer from './accounts'
 
 export * from './store'
 
-export const appReducer: AppState = combineReducers({
+export const appReducer: AppReducer = combineReducers({
   accounts: accountsReducer
 })
