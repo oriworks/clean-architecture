@@ -1,3 +1,4 @@
+import { merge } from 'lodash'
 import { AnyAction, applyMiddleware, createStore, PreloadedState, Reducer, Store } from 'redux'
 import thunk, { ThunkDispatch, ThunkMiddleware } from 'redux-thunk'
 import { composeWithDevTools } from 'redux-devtools-extension'
@@ -5,7 +6,7 @@ import { composeWithDevTools } from 'redux-devtools-extension'
 import { Features } from '@/framework/features'
 
 import { AppState, AppStore } from './types'
-import { appReducer } from '.'
+import { appReducer, appInitialState } from '.'
 import { useMemo } from 'react'
 
 const isServer = typeof window === 'undefined'
@@ -31,18 +32,20 @@ export const initStore = (initialState: AppState, features: Features): AppStore 
   return configureStore(appReducer, initialState, features)
 }
 
-export const initializeStore = (initialState: AppState, features: Features): AppStore => {
+export const initializeStore = (initialState: Partial<AppState>, features: Features): AppStore => {
+  const state = merge(appInitialState, initialState)
   // if (isServer) {
   //   return initStore(initialState, features)
   // }
-  let _store = store ?? initStore(initialState, features)
+  console.log('initializeStore ', isServer, store, initialState)
+  let _store = store ?? initStore(state, features)
 
   // After navigating to a page with an initial Redux state, merge that state
   // with the current state in the store, and create a new store
   if (initialState && store) {
     _store = initStore({
       ...store.getState(),
-      ...initialState
+      ...state
     }, features)
     // Reset the current store
     store = undefined

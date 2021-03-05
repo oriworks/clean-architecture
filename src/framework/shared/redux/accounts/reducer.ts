@@ -5,7 +5,7 @@ import { combineReducers, Reducer } from 'redux'
 import { Actions, defaultAction } from '../types'
 import { ActionTypes, State } from './types'
 
-const initialState: State = {
+export const initialState: State = {
   isLoading: false,
   data: []
 }

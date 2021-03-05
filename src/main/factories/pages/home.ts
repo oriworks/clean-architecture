@@ -1,7 +1,8 @@
-import { PageProps } from '@/framework/pages/home/page'
-import PageSSR, { NextSSR } from '@/framework/pages/home/page-ssr'
-import features from '../features'
+import features from '@/main/factories/features'
 
-export const makeHomePageSSR = (): NextSSR<PageProps> => {
+import PageSSR from '@/framework/pages/home'
+import { NextSSR } from '@/framework/pages/_app'
+
+export const makeHomePageSSR = (): NextSSR => {
   return PageSSR(features)
 }
